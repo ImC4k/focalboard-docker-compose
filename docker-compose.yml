@@ -1,0 +1,26 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:latest
+    # ports:
+    #   - 5432:5432
+    volumes:
+      - ./postgresql/data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=DB_PASSWORD
+      - POSTGRES_USER=DB_USERNAME
+      - POSTGRES_DB=DB_NAME
+  focalboard:
+    image: mattermost/focalboard:latest
+    depends_on:
+      - postgres
+    ports:
+      - 8889:8000
+    environment:
+      - VIRTUAL_HOST=focalboard.local
+      - VIRTUAL_PORT=8000
+    volumes:
+      - ./focalboard/config.json:/opt/focalboard/config.json
+      - ./focalboard/data:/opt/focalboard/data
+    restart: unless-stopped

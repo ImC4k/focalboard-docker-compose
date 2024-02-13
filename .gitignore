@@ -1,0 +1,4 @@
+focalboard/data/
+postgresql/data/
+**.DS_store
+local
